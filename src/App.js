@@ -1,56 +1,69 @@
-import React from 'react';
-import logo from './logo.svg';
-import { Counter } from './features/counter/Counter';
-import './App.css';
+import Login from "./Component/Login/Login";
+import Register from "./Component/Register/Register";
+import Home from "./Component/Home/Home";
+import { Route, Navigate, Routes } from 'react-router-dom'
+import { userInputs } from './formSource'
+import { useDispatch } from 'react-redux'
+import { login, logout } from './features/userSlice'
+import { useEffect } from "react";
+import { auth, db } from './DB/Firebase';
+import { doc, getDoc } from 'firebase/firestore';
+import ForgetPassword from "./Component/Login/ForgetPassword";
+import PageNotFound from './Component/PageNotFound/PageNotFound'
+import LandingPage from './Component/Landing/LandingPage'
+import UserProFile from "./Component/UserProFile/UserProFile";
 
 function App() {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    auth.onAuthStateChanged(async (userAuth) => {
+      if (userAuth) {
+        await getUserData(userAuth.uid)
+      }
+      else {
+        dispatch(logout())
+      }
+    });
+    const getUserData = async (id) => {
+      const docRef = doc(db, "users", id);
+      const docSnap = await getDoc(docRef)
+      dispatch(login({
+        email: docSnap.data().email,
+        name: docSnap.data().name,
+        profession: docSnap.data().profession,
+        img: docSnap.data().img,
+        uid: id,
+      }))
+    }
+
+  }, [dispatch]);
+
+  const RequireAuth = ({ children }) => {
+   return localStorage.getItem('logIn') ? children : <Navigate to="/login" />
+  };
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <Counter />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <span>
-          <span>Learn </span>
-          <a
-            className="App-link"
-            href="https://reactjs.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            React
-          </a>
-          <span>, </span>
-          <a
-            className="App-link"
-            href="https://redux.js.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Redux
-          </a>
-          <span>, </span>
-          <a
-            className="App-link"
-            href="https://redux-toolkit.js.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Redux Toolkit
-          </a>
-          ,<span> and </span>
-          <a
-            className="App-link"
-            href="https://react-redux.js.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            React Redux
-          </a>
-        </span>
-      </header>
+      <Routes>
+        <Route path="/">
+          <Route path="/" index element={<LandingPage />} />
+          <Route path="login" element={<Login />} />
+          <Route path="forget-password" element={<ForgetPassword />} />
+          <Route path="register" element={<Register inputs={userInputs} title="Registration" />} />
+          <Route path="/*" element={<PageNotFound/>} />
+          <Route path="/home" element={
+            <RequireAuth>
+              <Home />
+            </RequireAuth>}
+          />
+          <Route path="/profile/:id" element={
+            <RequireAuth>
+              <UserProFile />
+            </RequireAuth>}
+          />
+        </Route>
+      </Routes>
     </div>
   );
 }

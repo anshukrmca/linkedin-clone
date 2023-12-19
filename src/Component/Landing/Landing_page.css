@@ -1,0 +1,111 @@
+.Landing__head {
+    display: flex;
+    justify-content: space-between;
+    height: 70px;
+    padding: 10px 60px;
+    /* background-color: white; */
+    align-items: center;
+}
+
+.Landing__head>img {
+    height: 50px;
+}
+
+.btn{
+    width: 100px;
+    height: 40px;
+    font-size: 15px;
+    font-weight: 600;
+    margin-left: 20px;
+    border-radius: 20px;
+    border: none;
+    color: #0A66C2;
+    background-color: transparent;
+    cursor: pointer;
+    padding: 10px 15px;
+    text-decoration: none;
+
+}
+
+.btn:hover {
+    background-color: #5ea0e281;
+    border: 1px solid #0A66C2;
+}
+
+.btn:last-child {
+    border: 1px solid #0A66C2;
+}
+
+.Landing__body{
+    padding: 20px;
+}
+
+.Landing__Hero {
+    /* width: 100%; */
+    display: flex;
+}
+
+.Landing__google>h1 {
+    padding-bottom: 0;
+    font-size: 56px;
+    color: #2977c9;
+    font-weight: 200;
+    line-height: 70px;
+}
+
+.Landing__Hero>img {
+    width: 700px;
+    height: 430px;
+  
+}
+
+.Landing__gle {
+    display: flex;
+    justify-content: center;
+    color: rgba(0, 0, 0, 0.6);
+    transition-duration: 167ms;
+    font-size: 20px;
+    border-radius: 28px;
+    border: 1px solid black;
+    height: 56px;
+    align-items: center;
+    margin-top: 20px;
+    width: 70%;
+    cursor: pointer;
+}
+.Landing__gle>img{
+    height: 30px;
+    margin-right: 10px;
+}
+.Landing__gle:hover {
+    background-color: rgba(207, 207, 207, 0.484);
+    color: rgba(0, 0, 0, 0.824);
+}
+
+
+
+
+
+
+
+
+@media (max-width: 768px) {
+    .Landing__body {
+        margin: auto;
+        min-height: 0px;
+    }
+
+    .Landing__Hero {
+        text-align: center;
+        font-size: 20px;
+        width: 100%;
+        line-height: 2;
+    }
+
+    .Landing__Hero>img {
+        top: 230px;
+        width: initial;
+        position: initial;
+        height: initial;
+    }
+}

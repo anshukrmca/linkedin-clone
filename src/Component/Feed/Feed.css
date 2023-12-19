@@ -1,0 +1,45 @@
+.feed {
+    flex: 0.6;
+    padding: 0px 10px;
+}
+
+.feed__inputContainer {
+    /* display: flex; */
+    /* justify-content: space-evenly; */
+    background-color: white;
+    padding: 10px;
+    padding-bottom: 20px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+
+}
+
+.DivFeed__Input {
+    display: flex;
+    justify-content: space-between;
+}
+
+.feed__UserPic {
+    height: 60px !important;
+    width: 60px !important;
+}
+
+.feed__input {
+    border: 1px solid lightgray;
+    border-radius: 10px;
+    display: flex;
+    padding: 10px;
+    color: gray;
+    padding-left: 15px;
+    width: 100%;
+    margin-left: 10px;
+    cursor: pointer;
+    justify-content: flex-end;
+}
+
+
+.feed__inputOption {
+    display: flex;
+    justify-content: space-evenly;
+}

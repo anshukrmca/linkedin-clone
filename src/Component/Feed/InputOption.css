@@ -1,0 +1,16 @@
+.InputOption{
+    display: flex;
+    text-align: center;
+    align-items: center;
+    margin-top: 15px;
+    color: gray;
+    cursor: pointer;
+}
+.InputOption > h4{
+    margin-top: 5px;
+    margin-left: 5px;
+    font-size: 18px;
+}
+.InputOption_Icon{
+    font-size: 22px;
+}

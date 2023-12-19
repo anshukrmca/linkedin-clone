@@ -1,0 +1,10 @@
+.Main_div{
+    background-color:whitesmoke;
+    height: 100dvh;
+}
+.Header_Logo{
+    padding: 20px;
+}
+.Header_Logo >img{
+    height: 60px;
+} 
