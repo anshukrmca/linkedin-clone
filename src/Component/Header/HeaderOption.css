@@ -9,12 +9,12 @@
 
 .headerOption:hover {
     color: black;
-
 }
 
 .ProfilePic {
     object-fit: contain;
-    width: 45px !important;
+    width: 40px !important;
+    height: 40px !important;
     border-radius: 50%;
 }
 
@@ -22,11 +22,9 @@
     object-fit: contain;
     height: 25px !important;
     width: 25px !important;
-
 }
 
 .headerOption__title {
     font-size: 12px;
     font-weight: 400;
-
 }

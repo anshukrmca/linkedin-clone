@@ -10,10 +10,15 @@
     display: flex;
     margin-bottom: 10px;
     align-items: center;
+    justify-content: space-between;
 }
-
-.post__header>img {
-    height: 60px;
+.post_headerOP{
+    display: flex;
+    align-items: center;
+}
+.post_headerOP>img {
+    height: 50px;
+    width: 50px;
     border-radius: 50%;
 }
 
@@ -53,4 +58,23 @@
 .post__buttons {
     display: flex;
     justify-content: space-around;
+}
+
+.Post_option{
+    margin-right: 30px;
+    cursor: pointer;
+}
+
+.DrPost_Op{
+    padding: 3px 10px;
+}
+.DrPost_Op> li{
+    margin-bottom: 2px;
+    padding: 5px;
+}
+.DrPost_Op> li:hover{
+    margin-bottom: 2px;
+    background-color: whitesmoke;
+    cursor: pointer;
+    border-radius: 10px;
 }

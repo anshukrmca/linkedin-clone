@@ -92,14 +92,14 @@ useEffect(() => {
     };
     return (
         <>
-            <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="staticBackdropLabel">Add Post</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            <div className="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabIndex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                <div className="modal-dialog">
+                    <div className="modal-content">
+                        <div className="modal-header">
+                            <h5 className="modal-title" id="staticBackdropLabel">Add Post</h5>
+                            <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
-                        <div class="modal-body">
+                        <div className="modal-body">
                             <textarea type='text'
                                 value={input}
                                 onChange={e => setInput(e.target.value)} required
@@ -122,8 +122,8 @@ useEffect(() => {
                         </div>
                         {error && input.length <= 0 ?
                             <span style={{ color: 'red', textAlign: 'center' }}>Enter something for post !</span> : ""}
-                        <div class="modal-footer">
-                            <button type="submit" disabled={per !== null && per < 100}  onClick={sendPost} class="btn btn-success">Send Post</button>
+                        <div className="modal-footer">
+                            <button type="submit" disabled={per !== null && per < 100}  onClick={sendPost} className="btn btn-success">Send Post</button>
                         </div>
                     </div>
                 </div>
