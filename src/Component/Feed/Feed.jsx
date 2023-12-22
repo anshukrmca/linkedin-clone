@@ -45,7 +45,6 @@ const Feed = () => {
     );
     return () => Getpost();
   }, []);
-console.log(post)
 
   return (
     <>

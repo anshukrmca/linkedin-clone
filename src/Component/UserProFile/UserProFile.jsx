@@ -5,8 +5,6 @@ import { db } from '../../DB/Firebase'
 import {
   collection,
   query,
-  orderBy,
-  onSnapshot,
   where,
   getDocs,
 } from "firebase/firestore";
@@ -53,7 +51,7 @@ const UserProFile = () => {
           <div style={{ width: '98%' }}>
             <UserProfileView />
             <UserProfileEdit />
-            <div style={{ width: '60%', marginLeft: 'auto', marginRight: 'auto' }}>
+            <div style={{ margin:'0px 10px' }}>
               {post.map((item) => {
                 return (
                   <>

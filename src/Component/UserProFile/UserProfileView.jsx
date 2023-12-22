@@ -1,12 +1,25 @@
 import { doc, getDoc } from 'firebase/firestore';
 import React, { useEffect, useState } from 'react'
 import './UserProFile.css'
-import { useParams } from 'react-router-dom';
-import { db } from '../../DB/Firebase';
+import { useNavigate, useParams } from 'react-router-dom';
+import { auth, db } from '../../DB/Firebase';
 import { AiOutlineEdit } from "react-icons/ai";
+import { FaPowerOff } from "react-icons/fa";
+import { useDispatch } from 'react-redux';
+import { logout } from '../../features/userSlice';
 const UserProfileView = () => {
     const UserID = useParams()
     const [data, setData] = useState([]);
+    const dispatch = useDispatch()
+    const navigate = useNavigate()
+
+    const LogoutToApp = () => {
+        dispatch(logout());
+        auth.signOut()
+        localStorage.removeItem('logIn')
+        alert("logout")
+        navigate("/login")
+    }
 
     useEffect(() => {
         const getUserData = async (id) => {
@@ -27,12 +40,27 @@ const UserProfileView = () => {
 
     return (
         <>
-            <div className="d-flex mx-4 py-4">
-                <div className="col-md-8 border-end ">
+            <div className="ProfileView">
+                <div className="col-md-4">
+                    <div className="d-flex flex-column align-items-center text-center p-3 py-5">
+                        <img className="rounded-circle mb-3" width="300px" height="300px"
+                            src={data.img}
+                            alt=""
+                        />
+                        <span className="font-weight-bold fs-4">{data.name}</span>
+                        <span className="text-black-50 fs-5">{data.email}</span>
+                        <span></span>
+                    </div>
+                </div>
+                <div className="col-md-8 border-end">
                     <div className="p-3 py-5">
                         <div className="d-flex justify-content-between align-items-center mb-3">
                             <h4 className="text-right">Profile Details</h4>
-                            <AiOutlineEdit data-bs-toggle="modal" data-bs-target="#staticBackdrop" role="button" className='fs-1 text-warning bg-light p-2 rounded-circle' />
+                            <div className='mx-2'>
+                                <AiOutlineEdit data-bs-toggle="modal" data-bs-target="#staticBackdrop" role="button" className='fs-1 text-warning bg-light p-2 rounded-circle' />
+                                <span onClick={LogoutToApp} className='mx-2' role='button'>Logout <FaPowerOff /></span>
+                            </div>
+
                         </div>
                         <div className="row mt-2 d-flex justify-between">
                             <div className="col-11">
@@ -98,17 +126,7 @@ const UserProfileView = () => {
                         </div>
                     </div>
                 </div>
-                <div className="col-md-4">
-                    <div className="d-flex flex-column align-items-center text-center p-3 py-5">
-                        <img className="rounded-circle mb-3" width="300px" height="300px"
-                            src={data.img}
-                            alt=""
-                        />
-                        <span className="font-weight-bold fs-4">{data.name}</span>
-                        <span className="text-black-50 fs-5">{data.email}</span>
-                        <span></span>
-                    </div>
-                </div>
+
 
             </div>
         </>

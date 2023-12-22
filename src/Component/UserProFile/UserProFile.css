@@ -1,3 +1,14 @@
+.ProfileView{
+    display: flex;
+    margin: 0px 10px;
+}
 .edit_Icon{
     margin-left: 200px;
+}
+
+
+@media (max-width: 468px) {
+    .ProfileView{
+        display: block;
+    }
 }

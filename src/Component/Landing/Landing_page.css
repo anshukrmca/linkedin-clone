@@ -108,4 +108,24 @@
         position: initial;
         height: initial;
     }
+    .Login__option{
+        display: flex;
+    }
+    .Landing__google>h1 {
+        font-size: 26px;
+        font-weight: normal;
+        line-height: 30px;
+    }
+    .Landing__gle{
+        width: 400px;
+    }
+}
+@media (max-width: 468px) {
+    .Landing__Hero>img {
+        top: 230px;
+        width: 300px;
+    }
+    .Landing__gle{
+        width: 300px;
+    }
 }

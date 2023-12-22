@@ -78,3 +78,11 @@
     cursor: pointer;
     border-radius: 10px;
 }
+
+
+
+@media (max-width: 468px) {
+    .post{
+        min-width:95dvw;
+    }
+}
