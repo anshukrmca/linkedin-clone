@@ -7,7 +7,7 @@ import Loading from '../Loading/Loading';
 import Sidebar from '../sidebar/Sidebar'
 import Feed from '../Feed/Feed'
 import Layout from '../layout/Layout';
-
+import Widget from '../Widget/Widget'
 
 const Home = () => {
   const user = useSelector(selectUser)
@@ -20,6 +20,7 @@ const Home = () => {
             <div className='app__body'>
               <Sidebar />
               <Feed />
+              <Widget/>
             </div>
             :
             <div>

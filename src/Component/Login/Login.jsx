@@ -56,7 +56,7 @@ const Login = () => {
                                 </Form.Group>
 
                             </Form>
-                            <Button disabled={loading} onClick={handleSubmit} className="w-100 mt-4" type="submit">
+                            <Button disabled={loading} onClick={handleSubmit} className="w-100 mt-4" style={{marginLeft:'-3px'}} type="submit">
                                 Log In
                             </Button>
                             <div className="d-flex justify-content-between w-100 text-center mt-5 mb-2">

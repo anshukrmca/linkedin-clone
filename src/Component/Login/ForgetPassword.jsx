@@ -45,7 +45,7 @@ const ForgetPassword = () => {
                                     <Form.Control placeholder="Enter your e-mail" type="email" required onChange={(e) => { setEmail(e.target.value) }} value={email} />
                                 </Form.Group>
                             </Form>
-                            <Button disabled={loading} onClick={handleSubmit} className="w-100 mt-4" type="submit">
+                            <Button disabled={loading} onClick={handleSubmit} style={{marginLeft:'-3px'}} className="w-100 mt-4" type="submit">
                                 Forget Password
                             </Button>
                             <div className="d-flex justify-content-between w-100 text-center mt-5 mb-2">
