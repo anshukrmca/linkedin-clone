@@ -7,6 +7,7 @@ import { AiOutlineEdit } from "react-icons/ai";
 import { FaPowerOff } from "react-icons/fa";
 import { useDispatch } from 'react-redux';
 import { logout } from '../../features/userSlice';
+
 const UserProfileView = () => {
     const UserID = useParams()
     const [data, setData] = useState([]);
@@ -20,6 +21,8 @@ const UserProfileView = () => {
         alert("logout")
         navigate("/login")
     }
+
+
 
     useEffect(() => {
         const getUserData = async (id) => {
@@ -126,9 +129,9 @@ const UserProfileView = () => {
                         </div>
                     </div>
                 </div>
-
-
             </div>
+
+           
         </>
     )
 }

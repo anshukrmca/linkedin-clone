@@ -78,7 +78,9 @@ const Feed = () => {
                 description={item.description}
                 message={item.message}
                 photourl={item.photourl}
-                userImg={item.userImg} />
+                userImg={item.userImg}
+                NoOfLike={item.NoOfLike}
+                 />
             </>
           )
         })}

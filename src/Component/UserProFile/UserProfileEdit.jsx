@@ -1,12 +1,12 @@
 import React, { useState,useEffect } from 'react'
 import { useParams } from 'react-router-dom';
 import DriveFolderUploadOutlinedIcon from '../../Image/upload.png'
-import { db } from '../../DB/Firebase';
-import { doc, getDoc } from 'firebase/firestore';
+import {  db, storage } from '../../DB/Firebase';
+import { doc, getDoc, updateDoc } from 'firebase/firestore';
+import {ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage';
 const UserProfileEdit = () => {
     const [error, seterror] = useState(false)
     const [file, setFile] = useState("");
-    const [data, setData] = useState();
     const [per, setPerc] = useState(null);
     const UserID = useParams()
     const [name, setName] = useState("");
@@ -18,6 +18,46 @@ const UserProfileEdit = () => {
     const [password, setPassword] = useState("");
     const [img, setImg] = useState("");
 
+    useEffect(() => {
+        const uploadFile = () => {
+          const name = new Date().getTime() + file.name;
+    
+          console.log(name);
+          const storageRef = ref(storage, `UserImg/${file.name}`);
+          const uploadTask = uploadBytesResumable(storageRef, file);
+    
+          uploadTask.on(
+            "state_changed",
+            (snapshot) => {
+              const progress =
+                (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+              console.log("Upload is " + progress + "% done");
+              setPerc(progress);
+              switch (snapshot.state) {
+                case "paused":
+                  console.log("Upload is paused");
+                  break;
+                case "running":
+                  console.log("Upload is running");
+                  break;
+                default:
+                  break;
+              }
+            },
+            (error) => {
+              console.log(error);
+            },
+            () => {
+              getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+               setImg(downloadURL)
+              });
+            }
+          );
+        };
+       
+        file && uploadFile();
+       
+      }, [file]);
 
     useEffect(() => {
         const getUserData = async (id) => {
@@ -45,6 +85,28 @@ const UserProfileEdit = () => {
         getUserData(UserID.id);
     }, [UserID]);
 
+const updateUser = async()=>{
+    try{
+        const UserRef = doc(db, "users", UserID.id);
+        await updateDoc(UserRef, {
+            name:name,
+            email:email,
+            profession:profession,
+            phone:phone,
+            address:address,
+            country:country,
+            password:password,
+            img:img
+          }).then(()=>{
+            console.log("Updated data :",img)
+          })
+          window.location.reload()
+
+    }catch(err){
+        console.log("Updated fail :",err)
+    }
+   
+}
 
     return (
         <>
@@ -75,38 +137,27 @@ const UserProfileEdit = () => {
                                 </div>
                             </div>
                             <div className="d-flex gap-3  mt-2 justify-content-center">
-                                <div className='col-5' >
-                                    <label>Email</label>
-                                    <input value={email} onChange={(e) => { setEmail(e.target.value) }}
-                                    />
-                                </div>
                                 <div className='col-5'>
                                     <label>Profession</label>
                                     <input value={profession} onChange={(e) => { setProfession(e.target.value) }}
                                     />
                                 </div>
-                            </div>
-                            <div className="d-flex gap-3  mt-2 justify-content-center">
                                 <div className='col-5'>
                                     <label>Phone</label>
                                     <input value={phone} onChange={(e) => { setPhone(e.target.value) }}
                                     />
                                 </div>
+                            </div>
+                            <div className="d-flex gap-3  mt-2 justify-content-center">
+                               
                                 <div className='col-5'>
                                     <label>Address</label>
                                     <input value={address} onChange={(e) => { setAddress(e.target.value) }}
                                     />
                                 </div>
-                            </div>
-                            <div className="d-flex gap-3  mt-2 justify-content-center">
                                 <div className='col-5'>
                                     <label>Country</label>
                                     <input value={country} onChange={(e) => { setCountry(e.target.value) }}
-                                    />
-                                </div>
-                                <div className='col-5'>
-                                    <label>Password</label>
-                                    <input value={password} onChange={(e) => { setPassword(e.target.value) }}
                                     />
                                 </div>
                             </div>
@@ -114,7 +165,7 @@ const UserProfileEdit = () => {
                         {error && name.length <= 0 ?
                             <span style={{ color: 'red', textAlign: 'center' }}>Enter something for post !</span> : ""}
                         <div className="modal-footer">
-                            <button style={{width:'200px'}} type="submit" disabled={per !== null && per < 100} className="btn btn-success">Update Profile</button>
+                            <button onClick={updateUser} style={{width:'200px'}} type="submit" disabled={per !== null && per < 100} className="btn btn-success">Update Profile</button>
                         </div>
                     </div>
                 </div>

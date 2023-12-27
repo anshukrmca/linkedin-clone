@@ -78,7 +78,9 @@ useEffect(() => {
                     message: input,
                     photourl: data.img || '', // Ensure a default value for photourl
                     userImg: user.img,
-                    timestamp: serverTimestamp()
+                    NoOfLike :0,
+                    timestamp: serverTimestamp(),
+                    
                 };
 
                 await addDoc(postRef, newPost);

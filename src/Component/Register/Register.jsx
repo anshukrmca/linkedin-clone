@@ -127,7 +127,7 @@ const Register = ({ inputs, title }) => {
                 />
               </div>
             ))}
-            <button className="RegBtn" disabled={per !== null && per < 100} type="submit">
+            <button  className="RegBtn" disabled={per !== null && per < 100} type="submit">
               Send
             </button>
           </form>
