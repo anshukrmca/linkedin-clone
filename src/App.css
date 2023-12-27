@@ -15,6 +15,11 @@
         width: 150dvw;
     }
 }
+@media (max-width: 280px) {
+    .App{
+        width: 180dvw;
+    }
+}
 .app__body{
     display: flex;
     padding: 10px;
