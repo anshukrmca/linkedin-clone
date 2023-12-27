@@ -4,8 +4,8 @@ import DriveFolderUploadOutlinedIcon from '../../Image/upload.png'
 import {  db, storage } from '../../DB/Firebase';
 import { doc, getDoc, updateDoc } from 'firebase/firestore';
 import {ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage';
+import {  toast } from 'react-toastify';
 const UserProfileEdit = () => {
-    const [error, seterror] = useState(false)
     const [file, setFile] = useState("");
     const [per, setPerc] = useState(null);
     const UserID = useParams()
@@ -31,7 +31,6 @@ const UserProfileEdit = () => {
             (snapshot) => {
               const progress =
                 (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-              console.log("Upload is " + progress + "% done");
               setPerc(progress);
               switch (snapshot.state) {
                 case "paused":
@@ -74,9 +73,7 @@ const UserProfileEdit = () => {
                     setCountry(docSnap.data().country);
                     setPassword(docSnap.data().password);
                     setImg(docSnap.data().img);
-                } else {
-                    console.log('No such document!');
-                }
+                } 
             } catch (error) {
                 console.error(error);
             }
@@ -98,12 +95,13 @@ const updateUser = async()=>{
             password:password,
             img:img
           }).then(()=>{
-            console.log("Updated data :",img)
+            toast.success("Profile Successful Updated !")
+            setTimeout(() => {
+                window.location.reload();
+            }, 3000);
           })
-          window.location.reload()
-
     }catch(err){
-        console.log("Updated fail :",err)
+        toast.error("Profile Updated fail !")
     }
    
 }
@@ -162,8 +160,6 @@ const updateUser = async()=>{
                                 </div>
                             </div>
                         </div>
-                        {error && name.length <= 0 ?
-                            <span style={{ color: 'red', textAlign: 'center' }}>Enter something for post !</span> : ""}
                         <div className="modal-footer">
                             <button onClick={updateUser} style={{width:'200px'}} type="submit" disabled={per !== null && per < 100} className="btn btn-success">Update Profile</button>
                         </div>

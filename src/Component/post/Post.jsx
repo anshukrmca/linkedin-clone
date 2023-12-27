@@ -10,28 +10,43 @@ import { auth, db, storage } from '../../DB/Firebase';
 import { deleteObject, ref } from 'firebase/storage';
 import { FaRegHeart } from "react-icons/fa";
 import { FaHeart } from "react-icons/fa";
+import { toast } from 'react-toastify';
 const Post = ({ id, name, description, message, photourl, userImg, NoOfLike }) => {
 
     const [CheckLiked, setCheckLiked] = useState(false)
     const Userid = auth.currentUser.uid;
+
     const deletePost = async (id, photourl) => {
         try {
             await deleteDoc(doc(db, "posts", id));
+            DeletelikePost(id)
             if (!photourl === "") {
                 deleteImg(photourl)
             }
-            window.location.reload();
-            alert("Deleted with image");
+            toast.error("Post Successfully Delete!");
+
+            // Delay window reload after displaying the toast for 5 seconds
+            setTimeout(() => {
+                window.location.reload();
+            }, 2000);
         } catch (error) {
             console.error("Error deleting post and image:", error);
         }
     };
 
+    const DeletelikePost = async(id)=>{
+        const LikedPostCollectionRef = collection(db, 'LikedPost');
+        const q = query(LikedPostCollectionRef, where('postId', '==', id));
+        const querySnapshot = await getDocs(q);
+        querySnapshot.forEach(async (doc) => {
+            await deleteDoc(doc.ref);
+            console.log(`Document with ID ${doc.id} deleted successfully.`);
+        });
+    }
     const deleteImg = (photourl) => {
         const storageRef = ref(storage, photourl);
         return deleteObject(storageRef)
     };
-
 
 
     useEffect(() => {
@@ -79,7 +94,6 @@ const Post = ({ id, name, description, message, photourl, userImg, NoOfLike }) =
                 await addDoc(collection(db, "LikedPost"), {
                     postId: id,
                     LikedBy: auth.currentUser.uid,
-                    like: true
                 });
                 setCheckLiked(true);
                 console.log("Post updated with like. LikedPost added:");

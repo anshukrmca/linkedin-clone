@@ -7,6 +7,7 @@ import { AiOutlineEdit } from "react-icons/ai";
 import { FaPowerOff } from "react-icons/fa";
 import { useDispatch } from 'react-redux';
 import { logout } from '../../features/userSlice';
+import { toast } from 'react-toastify';
 
 const UserProfileView = () => {
     const UserID = useParams()
@@ -18,8 +19,11 @@ const UserProfileView = () => {
         dispatch(logout());
         auth.signOut()
         localStorage.removeItem('logIn')
-        alert("logout")
-        navigate("/login")
+        toast.success("Logout Successfull !")
+        setTimeout(() => {
+            navigate("/login")
+        }, 3000)
+
     }
 
 
@@ -131,7 +135,7 @@ const UserProfileView = () => {
                 </div>
             </div>
 
-           
+
         </>
     )
 }

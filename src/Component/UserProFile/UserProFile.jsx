@@ -12,6 +12,8 @@ import Layout from '../layout/Layout'
 import Loading from '../Loading/Loading'
 import UserProfileView from './UserProfileView';
 import UserProfileEdit from './UserProfileEdit';
+import SessionTimeOut from '../../PrivateRoute/SessionTimeOut'
+
 const UserProFile = () => {
   const ID = useParams()
   const [post, setPost] = useState([])
@@ -47,6 +49,7 @@ const UserProFile = () => {
   return (
     <>
       <Layout>
+        <SessionTimeOut/>
         {ID ?
           <div style={{ width: '98%' }}>
             <UserProfileView />
@@ -61,7 +64,8 @@ const UserProFile = () => {
                       description={item.description}
                       message={item.message}
                       photourl={item.photourl}
-                      userImg={item.userImg} />
+                      userImg={item.userImg}
+                      NoOfLike={item.NoOfLike} />
                   </>
                 )
               })}

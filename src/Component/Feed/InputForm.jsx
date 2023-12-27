@@ -4,13 +4,14 @@ import { selectUser } from '../../features/userSlice';
 import { FcGallery } from "react-icons/fc";
 import { MdOutlineSubscriptions } from "react-icons/md";
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
-import { db,storage } from '../../DB/Firebase'
+import { db, storage } from '../../DB/Firebase'
 import {
     collection,
     serverTimestamp,
     addDoc,
 } from "firebase/firestore";
 import InputOption from './InputOption';
+import { toast } from 'react-toastify';
 
 const InputForm = () => {
     const user = useSelector(selectUser);
@@ -21,45 +22,45 @@ const InputForm = () => {
     const [per, setPerc] = useState(null);
 
 
-// pic Upload 
-useEffect(() => {
-    const uploadFile = () => {
-      const name = new Date().getTime() + file.name;
+    // pic Upload 
+    useEffect(() => {
+        const uploadFile = () => {
+            const name = new Date().getTime() + file.name;
 
-      console.log(name);
-      const storageRef = ref(storage, `PostImg/${file.name}`);
-      const uploadTask = uploadBytesResumable(storageRef, file);
+            console.log(name);
+            const storageRef = ref(storage, `PostImg/${file.name}`);
+            const uploadTask = uploadBytesResumable(storageRef, file);
 
-      uploadTask.on(
-        "state_changed",
-        (snapshot) => {
-          const progress =
-            (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-          console.log("Upload is " + progress + "% done");
-          setPerc(progress);
-          switch (snapshot.state) {
-            case "paused":
-              console.log("Upload is paused");
-              break;
-            case "running":
-              console.log("Upload is running");
-              break;
-            default:
-              break;
-          }
-        },
-        (error) => {
-          console.log(error);
-        },
-        () => {
-          getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-            setData((prev) => ({ ...prev, img: downloadURL }));
-          });
-        }
-      );
-    };
-    file && uploadFile();
-  }, [file]);
+            uploadTask.on(
+                "state_changed",
+                (snapshot) => {
+                    const progress =
+                        (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+                    console.log("Upload is " + progress + "% done");
+                    setPerc(progress);
+                    switch (snapshot.state) {
+                        case "paused":
+                            console.log("Upload is paused");
+                            break;
+                        case "running":
+                            console.log("Upload is running");
+                            break;
+                        default:
+                            break;
+                    }
+                },
+                (error) => {
+                    console.log(error);
+                },
+                () => {
+                    getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+                        setData((prev) => ({ ...prev, img: downloadURL }));
+                    });
+                }
+            );
+        };
+        file && uploadFile();
+    }, [file]);
 
 
     // save  data on firebase store 
@@ -78,16 +79,19 @@ useEffect(() => {
                     message: input,
                     photourl: data.img || '', // Ensure a default value for photourl
                     userImg: user.img,
-                    NoOfLike :0,
+                    NoOfLike: 0,
                     timestamp: serverTimestamp(),
-                    
+
                 };
 
                 await addDoc(postRef, newPost);
                 setInput(""); // Reset input field after successful submission
-                window.location.reload();
+                toast.success("Post Successfully Added!");
+                setTimeout(() => {
+                    window.location.reload();
+                }, 3000);
             } catch (error) {
-                console.error("Error adding document:", error);
+                toast.error("Add Post failed!");
                 // Handle error state or logging as needed
             }
         }
@@ -125,7 +129,7 @@ useEffect(() => {
                         {error && input.length <= 0 ?
                             <span style={{ color: 'red', textAlign: 'center' }}>Enter something for post !</span> : ""}
                         <div className="modal-footer">
-                            <button type="submit" disabled={per !== null && per < 100}  onClick={sendPost} className="btn btn-success">Send Post</button>
+                            <button type="submit" disabled={per !== null && per < 100} onClick={sendPost} className="btn btn-success">Send Post</button>
                         </div>
                     </div>
                 </div>

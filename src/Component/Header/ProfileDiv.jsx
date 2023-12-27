@@ -6,6 +6,7 @@ import { useDispatch } from 'react-redux';
 import { logout } from '../../features/userSlice';
 import { useEffect, useState } from 'react';
 import { doc, getDoc } from 'firebase/firestore';
+import { toast } from 'react-toastify';
 
 
 const ProfileDiv = () => {
@@ -20,8 +21,10 @@ const ProfileDiv = () => {
         dispatch(logout());
         auth.signOut()
         localStorage.removeItem('logIn')
-        alert("logout")
-        navigate("/login")
+        toast.success("Logout Successfull !")
+        setTimeout(() => {
+            navigate("/login")
+        }, 3000)
     }
 
     useEffect(() => {

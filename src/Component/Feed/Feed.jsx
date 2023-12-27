@@ -24,7 +24,6 @@ const Feed = () => {
   const user = useSelector(selectUser);
   const [post, setPost] = useState([])
 
-
   // get post details 
   useEffect(() => {
 

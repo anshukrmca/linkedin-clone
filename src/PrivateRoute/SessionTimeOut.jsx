@@ -12,11 +12,11 @@ function SessionTimeOut() {
     
     const onIdle = () => {
         console.log('User is idle')
-        sessionTimeoutRef.current = setTimeout(logOut, 20*60000); // 5 seconds for testing, you can adjust this timeout
+        sessionTimeoutRef.current = setTimeout(logOut, 15*60000); // 5 seconds for testing, you can adjust this timeout
     };
 
     useIdleTimer({
-        timeout: 20*60000, // 5 seconds for testing, you can adjust this timeout
+        timeout: 15*60000, // 5 seconds for testing, you can adjust this timeout
         onIdle: onIdle,
     });
 

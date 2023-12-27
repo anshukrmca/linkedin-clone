@@ -6,14 +6,12 @@ import Linked_logo from '../../Image/login-logo.svg'
 import { auth, db, storage } from "../../DB/Firebase";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
-import {doc, serverTimestamp, setDoc, } from "firebase/firestore";
-import { Alert } from "react-bootstrap"
-
+import { doc, serverTimestamp, setDoc, } from "firebase/firestore";
+import { toast, ToastContainer } from "react-toastify"
 const Register = ({ inputs, title }) => {
   const [file, setFile] = useState("");
   const [data, setData] = useState({});
   const [per, setPerc] = useState(null);
-  const [error, setError] = useState("");
   const navigate = useNavigate()
 
   useEffect(() => {
@@ -75,8 +73,10 @@ const Register = ({ inputs, title }) => {
         ...data,
         timeStamp: serverTimestamp(),
       });
-      setError("User Added")
-     navigate('/')
+      toast.success("User Add Successful !")
+      setTimeout(() => {
+        navigate('/')
+      }, 4000)
     } catch (err) {
       console.log(err);
     }
@@ -89,7 +89,7 @@ const Register = ({ inputs, title }) => {
         <img src={Linked_logo} alt="" />
         <h1 className="text-center">{title}</h1>
       </div>
-      {error && <Alert variant="danger">{error}</Alert>}
+      <ToastContainer />
       <div className="bottom">
         <div className="left">
           <img
@@ -100,7 +100,7 @@ const Register = ({ inputs, title }) => {
             }
             alt=""
           />
-          <p style={{marginTop:'110px'}}>Already have account <Link to='/login'>Sign In</Link> </p>
+          <p style={{ marginTop: '110px' }}>Already have account <Link to='/login'>Sign In</Link> </p>
         </div>
         <div className="right">
           <form onSubmit={handleAdd}>
@@ -127,7 +127,7 @@ const Register = ({ inputs, title }) => {
                 />
               </div>
             ))}
-            <button  className="RegBtn" disabled={per !== null && per < 100} type="submit">
+            <button className="RegBtn" disabled={per !== null && per < 100} type="submit">
               Send
             </button>
           </form>

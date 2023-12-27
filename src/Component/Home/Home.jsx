@@ -3,7 +3,7 @@ import '../../App.css'
 import { useSelector } from 'react-redux'
 import { selectUser } from '../../features/userSlice';
 import Loading from '../Loading/Loading';
-// import SessionTimeOut from '../../PrivateRoute/SessionTimeOut';
+import SessionTimeOut from '../../PrivateRoute/SessionTimeOut';
 import Sidebar from '../sidebar/Sidebar'
 import Feed from '../Feed/Feed'
 import Layout from '../layout/Layout';
@@ -13,7 +13,7 @@ const Home = () => {
   const user = useSelector(selectUser)
   return (
     <>
-      {/* <SessionTimeOut /> */}
+      <SessionTimeOut/>
       <Layout>
         <div >
           {user ?
