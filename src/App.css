@@ -15,9 +15,9 @@
         width: 150dvw;
     }
 }
-@media (max-width: 280px) {
+@media (max-width: 273px) {
     .App{
-        width: 180dvw;
+        width: 175dvw;
     }
 }
 .app__body{
