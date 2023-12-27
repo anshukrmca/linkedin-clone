@@ -3,7 +3,7 @@ import Header from '../Header/Header'
 import { ToastContainer } from 'react-toastify'
 const Layout = ({children}) => {
   return (
-    <div>
+    <div className=''>
         <Header/>
         <div className="content">
         <ToastContainer/>

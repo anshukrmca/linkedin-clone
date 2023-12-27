@@ -49,9 +49,8 @@ const Header = () => {
                     <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                         <span className="navbar-toggler-icon"></span>
                     </button>
-                    {/* means */}
-                    <div className="collapse navbar-collapse align-middle" style={{marginRight:'60px'}} id="navbarNav">
-                        <ul className="navbar-nav ms-auto nav_ul align-items-center">
+                    <div className="collapse navbar-collapse" style={{marginRight:'60px'}} id="navbarNav">
+                        <ul className="navbar-nav ms-auto nav_ul">
 
                             <HeaderOption Icon={TiHomeOutline} title='Home' path='/home' />
                             <HeaderOption Icon={MdOutlineAccountBalance} title='My Network' />
@@ -64,12 +63,12 @@ const Header = () => {
                             <div className='SmProfile'>
                             <HeaderOption Icon={FaRegUserCircle} title='Profile' path={`/profile/${id}`}/>
                             </div>
-
                         </ul>
                     </div>
-                    {/* end */}
                 </div>
             </nav>
+
+            
         </>
     )
 }

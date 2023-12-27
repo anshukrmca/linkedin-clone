@@ -12,6 +12,7 @@ import ForgetPassword from "./Component/Login/ForgetPassword";
 import PageNotFound from './Component/PageNotFound/PageNotFound'
 import LandingPage from './Component/Landing/LandingPage'
 import UserProFile from "./Component/UserProFile/UserProFile";
+import "bootstrap/dist/css/bootstrap.min.css"
 
 function App() {
   const dispatch = useDispatch();
