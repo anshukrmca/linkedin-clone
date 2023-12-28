@@ -11,15 +11,25 @@ import { deleteObject, ref } from 'firebase/storage';
 import { FaRegHeart } from "react-icons/fa";
 import { FaHeart } from "react-icons/fa";
 import { toast } from 'react-toastify';
-const Post = ({ id, name, description, message, photourl, userImg, NoOfLike }) => {
+import { useSelector } from 'react-redux';
+import { selectUser } from '../../features/userSlice';
+import CommnetCard from './CommnetCard';
+import { Link } from 'react-router-dom';
+import AllCommnet from './AllCommnet';
+const Post = ({ PostId, name, description, message, photourl, userImg, NoOfLike }) => {
 
     const [CheckLiked, setCheckLiked] = useState(false)
+    const [CommnetOpen, setCommnentOpen] = useState(false)
     const Userid = auth.currentUser.uid;
+    const [newComment, setNewComment] = useState('');
+    const [commentData, setCommentData] = useState([]);
+    const user = useSelector(selectUser)
+    const [CommentYes, setCommentYes] = useState(false)
 
-    const deletePost = async (id, photourl) => {
+    const deletePost = async (PostId, photourl) => {
         try {
-            await deleteDoc(doc(db, "posts", id));
-            DeletelikePost(id)
+            await deleteDoc(doc(db, "posts", PostId));
+            DeletelikePost(PostId)
             if (!photourl === "") {
                 deleteImg(photourl)
             }
@@ -34,9 +44,9 @@ const Post = ({ id, name, description, message, photourl, userImg, NoOfLike }) =
         }
     };
 
-    const DeletelikePost = async(id)=>{
+    const DeletelikePost = async (PostId) => {
         const LikedPostCollectionRef = collection(db, 'LikedPost');
-        const q = query(LikedPostCollectionRef, where('postId', '==', id));
+        const q = query(LikedPostCollectionRef, where('postId', '==',PostId));
         const querySnapshot = await getDocs(q);
         querySnapshot.forEach(async (doc) => {
             await deleteDoc(doc.ref);
@@ -49,13 +59,14 @@ const Post = ({ id, name, description, message, photourl, userImg, NoOfLike }) =
     };
 
 
+    // check which post is like by current user 
     useEffect(() => {
         const fetchData = async () => {
             try {
                 const likedPostRef = collection(db, 'LikedPost');
                 const q = query(
                     likedPostRef,
-                    where('postId', '==', id),
+                    where('postId', '==', PostId),
                     where('LikedBy', '==', Userid)
                 );
                 const querySnapshot = await getDocs(q);
@@ -63,22 +74,48 @@ const Post = ({ id, name, description, message, photourl, userImg, NoOfLike }) =
                 if (!querySnapshot.empty) {
                     setCheckLiked(true);
                     return;
-                } else {
-                    console.log('No matching documents.');
                 }
             } catch (error) {
                 console.error('Error fetching documents: ', error);
             }
         };
-        fetchData(id, Userid);
-    }, [id, Userid]); // Dependency array, update if 'id' changes
+        fetchData(PostId, Userid);
+    }, [PostId, Userid]); // Dependency array, update if 'id' changes
+
+    // get all comment on this particuler post by ID
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const PostOnCommnetRef = collection(db, 'PostOnCommnet');
+                const q = query(PostOnCommnetRef, where('postId', '==', PostId));
+                const querySnapshot = await getDocs(q);
+
+                if (!querySnapshot.empty) {
+                    setCommentYes(true);
+                } else {
+                    setCommentYes(false);
+                }
+                const commentsArray = [];
+                querySnapshot.forEach((doc) => {
+                    commentsArray.push({ CommentId: doc.id, data: doc.data() });
+                });
+                setCommentData(commentsArray);
+            } catch (error) {
+                console.error('Error fetching data:', error);
+            }
+        };
+
+        fetchData();
+
+    }, [PostId])
+
 
     const LikeFN = async () => {
         try {
             const likedPostRef = collection(db, 'LikedPost');
             const q = query(
                 likedPostRef,
-                where('postId', '==', id),
+                where('postId', '==',PostId),
                 where('LikedBy', '==', Userid)
             );
             const querySnapshot = await getDocs(q);
@@ -86,13 +123,13 @@ const Post = ({ id, name, description, message, photourl, userImg, NoOfLike }) =
                 setCheckLiked(true);
                 return;
             } else {
-                const UserRef = doc(db, "posts", id);
+                const UserRef = doc(db, "posts", PostId);
                 await updateDoc(UserRef, {
                     NoOfLike: NoOfLike + 1,
                 });
 
                 await addDoc(collection(db, "LikedPost"), {
-                    postId: id,
+                    postId: PostId,
                     LikedBy: auth.currentUser.uid,
                 });
                 setCheckLiked(true);
@@ -103,6 +140,19 @@ const Post = ({ id, name, description, message, photourl, userImg, NoOfLike }) =
         }
     };
 
+    const OpenCommnetBox = () => {
+        setCommnentOpen(!CommnetOpen)
+    }
+    const AddComment = async () => {
+        await addDoc(collection(db, "PostOnCommnet"), {
+            postId: PostId,
+            CommnetMessage: newComment,
+            CommnetByNmae: user.name,
+            CommnetByImg: user.img,
+        });
+        toast.success("Commnet add !")
+        setNewComment("")
+    }
 
     const OptionDropDown = () => {
         return (
@@ -110,21 +160,25 @@ const Post = ({ id, name, description, message, photourl, userImg, NoOfLike }) =
                 <SlOptionsVertical className='Post_option' id="dropdownMenuLink" data-bs-toggle="dropdown" />
                 <div className="dropdown-menu" aria-labelledby="dropdownMenuLink">
                     <div className='DrPost_Op'>
-                        <li onClick={() => { deletePost(id, photourl) }}>Delete</li>
+                        <li onClick={() => { deletePost(PostId, photourl) }}>Delete</li>
                     </div>
 
                 </div>
             </div>
         );
     }
-
+    const handleOpenModal = (PostId) => {
+        console.log("ID ",PostId)
+      };
 
     return (
         <>
-            <div className="post" key={id}>
+            
+            <div className="post" key={PostId}>
+                <p>{PostId}</p>
                 <div className="post__header">
                     <div className='post_headerOP'>
-                        <img src={userImg} alt='img' />
+                        <img src={userImg} alt='imgs' />
                         <div className="post__info">
                             <h2>{name}</h2>
                             <p>{description}</p>
@@ -143,11 +197,41 @@ const Post = ({ id, name, description, message, photourl, userImg, NoOfLike }) =
 
                 <div className="post__buttons">
                     <InputOption Icon={CheckLiked ? FaHeart : FaRegHeart} title={NoOfLike <= 0 ? "" : NoOfLike} color={CheckLiked ? 'red' : 'gray'} functions={LikeFN} />
-                    <InputOption Icon={IoChatbubbleEllipsesOutline} title='Comment' color='Gray' />
+                    <InputOption Icon={IoChatbubbleEllipsesOutline} title='Comment' color='Gray' functions={OpenCommnetBox} />
                     <InputOption Icon={IoMdShare} title='Share' color='Gray' />
                     <InputOption Icon={AiOutlineSend} title='Send' color='Gray' />
                 </div>
+
+                <div className='comment_Div' style={{ display: CommnetOpen ? "block" : "none" }}>
+                    <div className="commnet_Box" >
+                        <input
+                            placeholder="Write your comment here..."
+                            value={newComment}
+                            onChange={(e) => { setNewComment(e.target.value) }}
+                        />
+                        <AiOutlineSend size={35} style={{ cursor: 'pointer' }} onClick={AddComment} />
+                    </div>
+                </div>
+                <div style={{ display: CommentYes ? "block" : "none", overflow: "hidden", marginTop: '10px', height: '90px' }}>
+                    <p className='my-2'>Commnet List..</p>
+                    {commentData.map((m) => {
+                        return (
+                            <>
+                                <CommnetCard id={m.CommentId} img={m.data.CommnetByImg} name={m.data.CommnetByNmae} massage={m.data.CommnetMessage} />
+                            </>
+                        )
+                    })}
+                </div>
+
+                {!CommentYes ? "" :
+                    <div style={{ textAlign: 'right' }}>
+                        <Link to={`/comment/${PostId}`} style={{ fontSize: '12px', fontWeight: 400, textAlign: 'end', color: 'black' }}
+                        >view more comment</Link>
+                    </div>
+                }
             </div>
+            {/* <AllCommnet postID={PostId}/> */}
+            
         </>
     )
 }

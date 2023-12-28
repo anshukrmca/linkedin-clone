@@ -1,26 +1,5 @@
-
-
-@media (max-width: 678px) {
-    .App{
-        width: 120dvw;
-    }
-}
-@media (max-width: 578px) {
-    .App{
-        width: 120dvw;
-    }
-}
-@media (max-width: 321px) {
-    .App{
-        width: 150dvw;
-    }
-}
-@media (max-width: 273px) {
-    .App{
-        width: 175dvw;
-    }
-}
 .app__body{
     display: flex;
-    padding: 10px;
+    padding: 10px 10px;
+    /* width: fit-content; */
 }

@@ -11,16 +11,18 @@ import {
     addDoc,
 } from "firebase/firestore";
 import InputOption from './InputOption';
-import { toast } from 'react-toastify';
+import { Form, Button, Card } from "react-bootstrap"
+import { toast } from "react-toastify"
+import Layout from '../layout/Layout'
+import { useNavigate } from 'react-router-dom';
 
 const InputForm = () => {
     const user = useSelector(selectUser);
     const [input, setInput] = useState("")
     const [data, setData] = useState({});
-    const [error, seterror] = useState(false)
     const [file, setFile] = useState("");
     const [per, setPerc] = useState(null);
-
+    const navigate = useNavigate()
 
     // pic Upload 
     useEffect(() => {
@@ -67,9 +69,8 @@ const InputForm = () => {
     const sendPost = async (e) => {
         e.preventDefault();
         if (input.length === 0) {
-            seterror(true);
+            toast.error("Enter Containt for Post !")
         } else {
-            seterror(false);
             try {
                 const postRef = collection(db, "posts");
                 const newPost = {
@@ -88,7 +89,7 @@ const InputForm = () => {
                 setInput(""); // Reset input field after successful submission
                 toast.success("Post Successfully Added!");
                 setTimeout(() => {
-                    window.location.reload();
+                    navigate('/home')
                 }, 3000);
             } catch (error) {
                 toast.error("Add Post failed!");
@@ -98,42 +99,49 @@ const InputForm = () => {
     };
     return (
         <>
-            <div className="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabIndex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-                <div className="modal-dialog modal-xl">
-                    <div className="modal-content">
-                        <div className="modal-header">
-                            <h5 className="modal-title" id="staticBackdropLabel">Add Post</h5>
-                            <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                        <div className="modal-body">
-                            <textarea type='text'
-                                value={input}
-                                onChange={e => setInput(e.target.value)} required
-                                style={{ width: '100%' }} />
+            <Layout>
 
-                            <div className="feed__inputOption">
-                                <div className="formInput">
-                                    <label htmlFor="file">
-                                        <InputOption Icon={FcGallery} title='Photo' color='#0073b1' />
-                                    </label>
-                                    <input
-                                        type="file"
-                                        id="file"
-                                        onChange={(e) => setFile(e.target.files[0])}
-                                        style={{ display: "none" }}
+                <div className="container d-flex align-items-center justify-content-center my-4">
+                    <Card style={{width:'50dvw'}}> 
+                        <Card.Body>
+                            <h2 className="text-center mb-4">Add Post !</h2>
+
+                            <Form >
+                                <Form.Group id="email">
+                                    <Form.Control required
+                                        as="textarea"
+                                        value={input}
+                                        onChange={e => setInput(e.target.value)}
+                                        style={{ width: '100%' }}
                                     />
-                                </div>
-                                <InputOption Icon={MdOutlineSubscriptions} title='Video' color='#C37D16' />
-                            </div>
-                        </div>
-                        {error && input.length <= 0 ?
-                            <span style={{ color: 'red', textAlign: 'center' }}>Enter something for post !</span> : ""}
-                        <div className="modal-footer">
-                            <button type="submit" disabled={per !== null && per < 100} onClick={sendPost} className="btn btn-success">Send Post</button>
-                        </div>
-                    </div>
+                                </Form.Group>
+                                <Form.Group>
+                                    <div className="feed__inputOption">
+                                        <div className="formInput">
+                                            <label htmlFor="file">
+                                                <InputOption Icon={FcGallery} title='Photo' color='#0073b1' />
+                                            </label>
+                                            <input
+                                                type="file"
+                                                id="file"
+                                                onChange={(e) => setFile(e.target.files[0])}
+                                                style={{ display: "none" }}
+                                            />
+                                        </div>
+                                        <InputOption Icon={MdOutlineSubscriptions} title='Video' color='#C37D16' />
+                                    </div>
+                                </Form.Group>
+
+                            </Form>
+                            <Button onClick={sendPost}  disabled={per !== null && per < 100} className="w-100 mt-4 btn-success" style={{ marginLeft: '-3px' }} type="submit">
+                                Send Post
+                            </Button>
+                            {/* <button type="submit" disabled={per !== null && per < 100} onClick={sendPost} className="btn btn-success">Send Post</button> */}
+
+                        </Card.Body>
+                    </Card>
                 </div>
-            </div>
+            </Layout>
         </>
     )
 }

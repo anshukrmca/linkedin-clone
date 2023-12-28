@@ -13,6 +13,9 @@ import PageNotFound from './Component/PageNotFound/PageNotFound'
 import LandingPage from './Component/Landing/LandingPage'
 import UserProFile from "./Component/UserProFile/UserProFile";
 import "bootstrap/dist/css/bootstrap.min.css"
+import InputForm from "./Component/Feed/InputForm";
+import UserProfileEdit from "./Component/UserProFile/UserProfileEdit";
+import AllCommnet from "./Component/post/AllCommnet";
 
 function App() {
   const dispatch = useDispatch();
@@ -45,7 +48,7 @@ function App() {
   };
 
   return (
-    <div className="App">
+    <div>
       <Routes>
         <Route path="/">
           <Route path="/" index element={<LandingPage />} />
@@ -61,6 +64,21 @@ function App() {
           <Route path="/profile/:id" element={
             <RequireAuth>
               <UserProFile />
+            </RequireAuth>}
+          />
+          <Route path="/pUpdate/:id" element={
+            <RequireAuth>
+              <UserProfileEdit />
+            </RequireAuth>}
+          />
+          <Route path="/addPost" element={
+            <RequireAuth>
+              <InputForm />
+            </RequireAuth>}
+          />
+           <Route path="/comment/:id" element={
+            <RequireAuth>
+              <AllCommnet />
             </RequireAuth>}
           />
         </Route>

@@ -51,7 +51,6 @@ const Header = () => {
                     </button>
                     <div className="collapse navbar-collapse" style={{marginRight:'60px'}} id="navbarNav">
                         <ul className="navbar-nav ms-auto nav_ul">
-
                             <HeaderOption Icon={TiHomeOutline} title='Home' path='/home' />
                             <HeaderOption Icon={MdOutlineAccountBalance} title='My Network' />
                             <HeaderOption Icon={FaBusinessTime} title='Jobs' />

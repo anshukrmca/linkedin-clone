@@ -1,0 +1,16 @@
+@media (max-width: 426px) {
+    .Layout_Div{
+        width: 110dvw;
+    }
+  }
+  @media (max-width: 326px) {
+    .Layout_Div{
+        width: 125dvw;
+    }
+  }
+
+  @media (max-width: 245px) {
+    .Layout_Div{
+        width: 170dvw;
+    }
+  }

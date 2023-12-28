@@ -98,7 +98,7 @@ color:red
 }
 
 
-@media (max-width: 468px) {
+@media (max-width: 568px) {
     .sidebar{
         display: none;
     }

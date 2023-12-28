@@ -16,7 +16,7 @@ import {
 } from "firebase/firestore";
 import { useSelector } from 'react-redux'
 import { selectUser } from '../../features/userSlice';
-import InputForm from './InputForm';
+import { Link } from 'react-router-dom';
 
 
 
@@ -26,9 +26,7 @@ const Feed = () => {
 
   // get post details 
   useEffect(() => {
-
     // get data from firebase store 
-
     const Getpost = onSnapshot(
       query(collection(db, 'posts'), orderBy('timestamp', 'desc')),
       (snapshot) => {
@@ -49,12 +47,13 @@ const Feed = () => {
     <>
       <div className="feed">
         <div className="feed__inputContainer">
-          <div className="DivFeed__Input" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+          <Link className="DivFeed__Input" to='/addPost'>
             <img alt='img' className='rounded-circle feed__UserPic' src={user.img} />
             <div className="feed__input">
               <MdOutlineCreate style={{ fontSize: '30px' }} />
-            </div>
-          </div>
+              </div>
+            </Link>
+          
           <div className="feed__inputOption">
             <InputOption Icon={FcGallery} title='Photo' color='#0073b1' />
             <InputOption Icon={MdOutlineSubscriptions} title='Video' color='#C37D16' />
@@ -63,16 +62,14 @@ const Feed = () => {
           </div>
         </div>
 
-        {/* <!-- Modal --> */}
-        <InputForm />
-        
+       
         {/* post */}
 
         {post.map((item) => {
           return (
             <>
               <Post
-                id={item.id}
+                PostId={item.id}
                 name={item.name}
                 description={item.description}
                 message={item.message}

@@ -1,7 +1,7 @@
 import { doc, getDoc } from 'firebase/firestore';
 import React, { useEffect, useState } from 'react'
 import './UserProFile.css'
-import { useNavigate, useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import { auth, db } from '../../DB/Firebase';
 import { AiOutlineEdit } from "react-icons/ai";
 import { FaPowerOff } from "react-icons/fa";
@@ -64,7 +64,10 @@ const UserProfileView = () => {
                         <div className="d-flex justify-content-between align-items-center mb-3">
                             <h4 className="text-right">Profile Details</h4>
                             <div className='mx-2'>
-                                <AiOutlineEdit data-bs-toggle="modal" data-bs-target="#staticBackdrop" role="button" className='fs-1 text-warning bg-light p-2 rounded-circle' />
+                                <Link to={`/pUpdate/${UserID.id}`}>
+                                    <AiOutlineEdit  className='fs-1 text-warning bg-light p-2 rounded-circle' />
+                                </Link>
+
                                 <span onClick={LogoutToApp} className='mx-2' role='button'>Logout <FaPowerOff /></span>
                             </div>
 

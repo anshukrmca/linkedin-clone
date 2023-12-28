@@ -11,7 +11,6 @@ import {
 import Layout from '../layout/Layout'
 import Loading from '../Loading/Loading'
 import UserProfileView from './UserProfileView';
-import UserProfileEdit from './UserProfileEdit';
 import SessionTimeOut from '../../PrivateRoute/SessionTimeOut'
 
 const UserProFile = () => {
@@ -53,7 +52,6 @@ const UserProFile = () => {
         {ID ?
           <div style={{ width: '98%' }}>
             <UserProfileView />
-            <UserProfileEdit />
             <div style={{ margin:'0px 10px' }}>
               {post.map((item) => {
                 return (

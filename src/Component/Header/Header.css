@@ -51,21 +51,22 @@
     .header__search{
         display: none;
     }
-    .SmProfile{
-        display: block;
-    }
+}
+@media(max-width: 1000px){
     .PDiv-nav{
         display: none;
     }
-  
+    .SmProfile{
+        display: block;
+    }
+   
 }
 @media(max-width: 468px){
     .header__search{
         display: none;
     }
-    .PDiv-nav{
+    /* .PDiv-nav{
         display: none;
-    }
+    } */
    
 }
-
