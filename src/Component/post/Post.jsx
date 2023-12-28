@@ -15,7 +15,6 @@ import { useSelector } from 'react-redux';
 import { selectUser } from '../../features/userSlice';
 import CommnetCard from './CommnetCard';
 import { Link } from 'react-router-dom';
-import AllCommnet from './AllCommnet';
 const Post = ({ PostId, name, description, message, photourl, userImg, NoOfLike }) => {
 
     const [CheckLiked, setCheckLiked] = useState(false)
@@ -167,10 +166,7 @@ const Post = ({ PostId, name, description, message, photourl, userImg, NoOfLike 
             </div>
         );
     }
-    const handleOpenModal = (PostId) => {
-        console.log("ID ",PostId)
-      };
-
+   
     return (
         <>
             

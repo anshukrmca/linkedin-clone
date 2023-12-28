@@ -4,7 +4,7 @@ import { db } from '../../DB/Firebase';
 import CommnetCard from './CommnetCard';
 import { useParams } from 'react-router-dom';
 
-const AllCommnet = ({ postID }) => {
+const AllCommnet = () => {
     const [commentData, setCommentData] = useState([]);
     const PostID = useParams()
     // get all comment on this particuler post by ID
@@ -28,14 +28,13 @@ const AllCommnet = ({ postID }) => {
 
         fetchData();
 
-    }, [postID])
+    }, [PostID.id])
 
     return (
         <>
 
             <div class="modal-body">
                 <p className='my-2'>Commnet List..</p>
-                <samp>{postID}</samp>
                 {commentData.map((m) => {
                     return (
                         <>
