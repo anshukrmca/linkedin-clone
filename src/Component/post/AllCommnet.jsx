@@ -33,7 +33,7 @@ const AllCommnet = () => {
     return (
         <>
 
-            <div class="modal-body">
+            <div class="mx-5">
                 <p className='my-2'>Commnet List..</p>
                 {commentData.map((m) => {
                     return (
