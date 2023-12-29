@@ -171,7 +171,6 @@ const Post = ({ PostId, name, description, message, photourl, userImg, NoOfLike 
         <>
             
             <div className="post" key={PostId}>
-                <p>{PostId}</p>
                 <div className="post__header">
                     <div className='post_headerOP'>
                         <img src={userImg} alt='imgs' />

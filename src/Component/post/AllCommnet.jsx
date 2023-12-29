@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react'
 import { db } from '../../DB/Firebase';
 import CommnetCard from './CommnetCard';
 import { useParams } from 'react-router-dom';
+import Layout from '../layout/Layout'
 
 const AllCommnet = () => {
     const [commentData, setCommentData] = useState([]);
@@ -32,17 +33,19 @@ const AllCommnet = () => {
 
     return (
         <>
+            <Layout>
+                <div class="mx-5">
+                    <p className='my-2'>Commnet List..</p>
+                    {commentData.map((m) => {
+                        return (
+                            <>
+                                <CommnetCard id={m.CommentId} img={m.data.CommnetByImg} name={m.data.CommnetByNmae} massage={m.data.CommnetMessage} />
+                            </>
+                        )
+                    })}
+                </div>
 
-            <div class="mx-5">
-                <p className='my-2'>Commnet List..</p>
-                {commentData.map((m) => {
-                    return (
-                        <>
-                            <CommnetCard id={m.CommentId} img={m.data.CommnetByImg} name={m.data.CommnetByNmae} massage={m.data.CommnetMessage} />
-                        </>
-                    )
-                })}
-            </div>
+            </Layout>
 
         </>
     )
