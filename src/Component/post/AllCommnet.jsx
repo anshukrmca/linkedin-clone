@@ -5,6 +5,7 @@ import CommnetCard from './CommnetCard';
 import { useParams } from 'react-router-dom';
 import Layout from '../layout/Layout'
 import Loading from '../Loading/Loading';
+import './Post.css'
 
 const AllCommnet = () => {
     const [commentData, setCommentData] = useState([]);
@@ -37,7 +38,7 @@ const AllCommnet = () => {
             <Layout>
                 <div className="mx-5">
                     <p className='my-2'>Commnet List..</p>
-                    <div style={{ display: 'grid', gridTemplateColumns: "repeat(2, 1fr)", gap: '20px' }}>
+                    <div className='AllCommnentDiv'>
                         {commentData ?
                             commentData.map((m) => {
                                 return (
