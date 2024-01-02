@@ -23,7 +23,7 @@ const InputForm = () => {
     const [file, setFile] = useState("");
     const [per, setPerc] = useState(null);
     const navigate = useNavigate()
-
+   // const [currentDateTime, setCurrentDateTime] = useState('');
     // pic Upload 
     useEffect(() => {
         const uploadFile = () => {
@@ -64,7 +64,6 @@ const InputForm = () => {
         file && uploadFile();
     }, [file]);
 
-
     // save  data on firebase store 
     const sendPost = async (e) => {
         e.preventDefault();
@@ -81,7 +80,7 @@ const InputForm = () => {
                     photourl: data.img || '', // Ensure a default value for photourl
                     userImg: user.img,
                     NoOfLike: 0,
-                    timestamp: serverTimestamp(),
+                    CreatedAt: serverTimestamp(),
 
                 };
 
@@ -102,7 +101,7 @@ const InputForm = () => {
             <Layout>
 
                 <div className="container d-flex align-items-center justify-content-center my-4">
-                    <Card style={{width:'50dvw'}}> 
+                    <Card style={{ width: '50dvw' }}>
                         <Card.Body>
                             <h2 className="text-center mb-4">Add Post !</h2>
 
@@ -133,7 +132,7 @@ const InputForm = () => {
                                 </Form.Group>
 
                             </Form>
-                            <Button onClick={sendPost}  disabled={per !== null && per < 100} className="w-100 mt-4 btn-success" style={{ marginLeft: '-3px' }} type="submit">
+                            <Button onClick={sendPost} disabled={per !== null && per < 100} className="w-100 mt-4 btn-success" style={{ marginLeft: '-3px' }} type="submit">
                                 Send Post
                             </Button>
                             {/* <button type="submit" disabled={per !== null && per < 100} onClick={sendPost} className="btn btn-success">Send Post</button> */}

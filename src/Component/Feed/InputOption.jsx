@@ -6,7 +6,7 @@ const InputOption = ({ Icon, title, color,functions }) => {
         <>
             <div className="InputOption">
                 <Icon className='InputOption_Icon' onClick={functions}  style={{ color: color}} />
-                <h4>{title}</h4>
+                <h4 onClick={functions}>{title}</h4>
             </div>
 
         </> 

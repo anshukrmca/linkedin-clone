@@ -28,7 +28,7 @@ const Feed = () => {
   useEffect(() => {
     // get data from firebase store 
     const Getpost = onSnapshot(
-      query(collection(db, 'posts'), orderBy('timestamp', 'desc')),
+      query(collection(db, 'posts'), orderBy('CreatedAt', 'desc')),
       (snapshot) => {
         const updatedPosts = snapshot.docs.map((doc) => ({
           id: doc.id,

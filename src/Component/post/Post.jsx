@@ -5,25 +5,23 @@ import { IoMdShare } from "react-icons/io";
 import { AiOutlineSend } from "react-icons/ai";
 import InputOption from '../Feed/InputOption'
 import { SlOptionsVertical } from "react-icons/sl";
-import { doc, deleteDoc, updateDoc, collection, addDoc, where, query, getDocs } from "firebase/firestore";
+import { doc, deleteDoc, updateDoc, collection, addDoc, where, query, getDocs, serverTimestamp } from "firebase/firestore";
 import { auth, db, storage } from '../../DB/Firebase';
 import { deleteObject, ref } from 'firebase/storage';
 import { FaRegHeart } from "react-icons/fa";
 import { FaHeart } from "react-icons/fa";
 import { toast } from 'react-toastify';
-import { useSelector } from 'react-redux';
-import { selectUser } from '../../features/userSlice';
 import CommnetCard from './CommnetCard';
 import { Link } from 'react-router-dom';
+import CommentInpput from './CommentInpput';
 const Post = ({ PostId, name, description, message, photourl, userImg, NoOfLike }) => {
 
     const [CheckLiked, setCheckLiked] = useState(false)
     const [CommnetOpen, setCommnentOpen] = useState(false)
     const Userid = auth.currentUser.uid;
-    const [newComment, setNewComment] = useState('');
     const [commentData, setCommentData] = useState([]);
-    const user = useSelector(selectUser)
     const [CommentYes, setCommentYes] = useState(false)
+   
 
     const deletePost = async (PostId, photourl) => {
         try {
@@ -45,7 +43,7 @@ const Post = ({ PostId, name, description, message, photourl, userImg, NoOfLike 
 
     const DeletelikePost = async (PostId) => {
         const LikedPostCollectionRef = collection(db, 'LikedPost');
-        const q = query(LikedPostCollectionRef, where('postId', '==',PostId));
+        const q = query(LikedPostCollectionRef, where('postId', '==', PostId));
         const querySnapshot = await getDocs(q);
         querySnapshot.forEach(async (doc) => {
             await deleteDoc(doc.ref);
@@ -114,7 +112,7 @@ const Post = ({ PostId, name, description, message, photourl, userImg, NoOfLike 
             const likedPostRef = collection(db, 'LikedPost');
             const q = query(
                 likedPostRef,
-                where('postId', '==',PostId),
+                where('postId', '==', PostId),
                 where('LikedBy', '==', Userid)
             );
             const querySnapshot = await getDocs(q);
@@ -130,6 +128,7 @@ const Post = ({ PostId, name, description, message, photourl, userImg, NoOfLike 
                 await addDoc(collection(db, "LikedPost"), {
                     postId: PostId,
                     LikedBy: auth.currentUser.uid,
+                    CreatedAt: serverTimestamp(),
                 });
                 setCheckLiked(true);
                 console.log("Post updated with like. LikedPost added:");
@@ -142,17 +141,7 @@ const Post = ({ PostId, name, description, message, photourl, userImg, NoOfLike 
     const OpenCommnetBox = () => {
         setCommnentOpen(!CommnetOpen)
     }
-    const AddComment = async () => {
-        await addDoc(collection(db, "PostOnCommnet"), {
-            postId: PostId,
-            CommnetMessage: newComment,
-            CommnetByNmae: user.name,
-            CommnetByImg: user.img,
-        });
-        toast.success("Commnet add !")
-        setNewComment("")
-    }
-
+   
     const OptionDropDown = () => {
         return (
             <div className="dropdown">
@@ -166,10 +155,10 @@ const Post = ({ PostId, name, description, message, photourl, userImg, NoOfLike 
             </div>
         );
     }
-   
+
     return (
         <>
-            
+
             <div className="post" key={PostId}>
                 <div className="post__header">
                     <div className='post_headerOP'>
@@ -198,21 +187,14 @@ const Post = ({ PostId, name, description, message, photourl, userImg, NoOfLike 
                 </div>
 
                 <div className='comment_Div' style={{ display: CommnetOpen ? "block" : "none" }}>
-                    <div className="commnet_Box" >
-                        <input
-                            placeholder="Write your comment here..."
-                            value={newComment}
-                            onChange={(e) => { setNewComment(e.target.value) }}
-                        />
-                        <AiOutlineSend size={35} style={{ cursor: 'pointer' }} onClick={AddComment} />
-                    </div>
+                     <CommentInpput postId={PostId}/>
                 </div>
-                <div style={{ display: CommentYes ? "block" : "none", overflow: "hidden", marginTop: '10px', height: '90px' }}>
+                <div style={{ display: CommentYes ? "block" : "none", overflow: "hidden", marginTop: '10px', height: '95px' }}>
                     <p className='my-2'>Commnet List..</p>
                     {commentData.map((m) => {
                         return (
                             <>
-                                <CommnetCard id={m.CommentId} img={m.data.CommnetByImg} name={m.data.CommnetByNmae} massage={m.data.CommnetMessage} />
+                                <CommnetCard postId={PostId} id={m.CommentId} img={m.data.CommnetByImg} name={m.data.CommnetByNmae} massage={m.data.CommnetMessage} />
                             </>
                         )
                     })}
@@ -226,7 +208,7 @@ const Post = ({ PostId, name, description, message, photourl, userImg, NoOfLike 
                 }
             </div>
             {/* <AllCommnet postID={PostId}/> */}
-            
+
         </>
     )
 }

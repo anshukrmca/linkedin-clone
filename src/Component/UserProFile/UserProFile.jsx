@@ -29,7 +29,7 @@ const UserProFile = () => {
             ...doc.data(),
             ID: doc.id,
           }));
-
+         // console.log(fetchedPosts)
           setPost(fetchedPosts);
         }
       } catch (error) {
@@ -42,22 +42,20 @@ const UserProFile = () => {
     }
   }, [ID]);
 
-//console.log(post)
-
-
+  //console.log(post)
   return (
     <>
       <Layout>
-        <SessionTimeOut/>
+        <SessionTimeOut />
         {ID ?
           <div style={{ width: '98%' }}>
             <UserProfileView />
-            <div style={{ margin:'0px 10px' }}>
+            <div style={{ margin: '0px 10px' }}>
               {post.map((item) => {
                 return (
                   <>
                     <Post
-                      id={item.ID}
+                      PostId={item.ID}
                       name={item.name}
                       description={item.description}
                       message={item.message}
