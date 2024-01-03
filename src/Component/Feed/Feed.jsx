@@ -63,7 +63,7 @@ const Feed = () => {
         </div>
 
        
-        {/* post */}
+        {/* post feeds*/}
 
         {post.map((item) => {
           return (
